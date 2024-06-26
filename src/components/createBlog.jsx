@@ -1,0 +1,184 @@
+import { useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { getBlogData, storeBlogData } from "../utils/blogData";
+
+const CreateBlog = () => {
+    const maxTitleLength = 100;
+    const [formData, setFormData] = useState({
+        title: "",
+        content: "",
+        author: "",
+        date: new Date().toISOString().split("T")[0],
+    });
+
+    const [errors, setErrors] = useState({});
+
+    const navigate = useNavigate();
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            const blogData = getBlogData();
+            blogData.push(formData);
+            storeBlogData(blogData);
+            toast.success("Blog created successfully!");
+            navigate("/");
+        } else {
+            toast.error("Please fill in all required fields");
+        }
+    };
+
+    const validateForm = () => {
+        let valid = true;
+        const newErrors = {};
+
+        if (!formData.title.trim()) {
+            newErrors.title = "Title is required";
+            valid = false;
+        }
+
+        if (!formData.content.trim()) {
+            newErrors.content = "Content is required";
+            valid = false;
+        }
+
+        if (!formData.author.trim()) {
+            newErrors.author = "Author is required";
+            valid = false;
+        }
+
+        setErrors(newErrors);
+        return valid;
+    };
+
+    const handleTitleChange = (e) => {
+        const { value } = e.target;
+        if (value.length <= maxTitleLength) {
+            setFormData({ ...formData, title: value });
+        }
+    };
+
+    const titleCharacterCount = `${formData.title.length}/${maxTitleLength}`;
+
+    return (
+        <CreateBlogContainer>
+            <Title>Create a New Blog</Title>
+            <form onSubmit={handleSubmit}>
+                <FormGroup>
+                    <label htmlFor="title">Title</label>
+                    <Input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleTitleChange}
+                        maxLength={maxTitleLength}
+                        error={errors.title}
+                    />
+                    <CharacterCount>{titleCharacterCount}</CharacterCount>
+                    {errors.title && (
+                        <ErrorMessage>{errors.title}</ErrorMessage>
+                    )}
+                </FormGroup>
+                <FormGroup>
+                    <label htmlFor="content">Content</label>
+                    <Textarea
+                        id="content"
+                        name="content"
+                        value={formData.content}
+                        onChange={handleInputChange}
+                        rows={10}
+                    />
+                    {errors.content && (
+                        <ErrorMessage>{errors.content}</ErrorMessage>
+                    )}
+                </FormGroup>
+                <FormGroup>
+                    <label htmlFor="author">Author</label>
+                    <Input
+                        type="text"
+                        id="author"
+                        name="author"
+                        value={formData.author}
+                        onChange={handleInputChange}
+                    />
+                    {errors.author && (
+                        <ErrorMessage>{errors.author}</ErrorMessage>
+                    )}
+                </FormGroup>
+                <Button type="submit">Create Blog</Button>
+            </form>
+        </CreateBlogContainer>
+    );
+};
+
+export default CreateBlog;
+
+// Styled components
+const CreateBlogContainer = styled.div`
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2em;
+`;
+
+const Title = styled.h1`
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 1em;
+`;
+
+const FormGroup = styled.div`
+    margin-bottom: 1.5em;
+`;
+
+const Input = styled.input`
+    width: 100%;
+    padding: 0.5em;
+    font-size: 1em;
+    border: 1px solid ${(props) => (props.error ? "red" : "#ccc")};
+    border-radius: 4px;
+`;
+
+const Textarea = styled.textarea`
+    width: 100%;
+    padding: 0.5em;
+    font-size: 1em;
+    border: 1px solid ${(props) => (props.error ? "red" : "#ccc")};
+    border-radius: 4px;
+    resize: none;
+`;
+
+const Button = styled.button`
+    padding: 0.8em 1.5em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+`;
+
+const ErrorMessage = styled.p`
+    color: red;
+    font-size: 0.875em;
+    margin-top: 0.5em;
+`;
+
+const CharacterCount = styled.span`
+    font-size: 0.875em;
+    color: ${(props) => (props.error ? "red" : "#555")};
+    margin-top: 0.5em;
+    display: block;
+`;

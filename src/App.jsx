@@ -1,0 +1,33 @@
+import BlogList from "./components/blogList";
+import BlogPost from "./components/blogPost";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/layout";
+import { BlogProvider } from "./context/blogContext";
+import { ThemeContextProvider } from "./context/themeContext";
+import { GlobalStyles } from "./globalStyles";
+import CreateBlog from "./components/createBlog";
+
+const App = () => {
+    return (
+        <BlogProvider>
+            <ThemeContextProvider>
+                <GlobalStyles />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Layout />}>
+                            <Route index element={<BlogList />} />
+                            <Route path="blog/:id" element={<BlogPost />} />
+                            <Route
+                                path="create-blog"
+                                element={<CreateBlog />}
+                            />
+                        </Route>
+                        <Route path="*" element={<h1>Not Found</h1>} />
+                    </Routes>
+                </BrowserRouter>
+            </ThemeContextProvider>
+        </BlogProvider>
+    );
+};
+
+export default App;
