@@ -4,7 +4,9 @@ const NavBar = () => {
     const { isLightTheme, toggleTheme } = useBlogContext();
     return (
         <NavBarContainer>
-            <NavBarHeading>Blog</NavBarHeading>
+            <StyledLink to="/">
+                <NavBarHeading>Blog</NavBarHeading>
+            </StyledLink>
             <NavBarOptionsBgContainer>
                 <NavBarToggleThemeContainer onClick={toggleTheme}>
                     {isLightTheme ? <DarkModeIcon /> : <LightModeIcon />}
@@ -20,9 +22,11 @@ export default NavBar;
 
 import styled, { keyframes } from "styled-components";
 import { BsMoonFill, BsFillSunFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const NavBarContainer = styled.nav`
-    box-shadow: 0px 2px 3px 1px grey;
+    box-shadow: 0px 2px 3px 1px
+        ${({ theme }) => (theme.isLightTheme ? "grey" : "black")};
     padding: clamp(0.2em, 1vw + 0.7em, 1em) clamp(1em, 1vw + 0.7em, 3em);
     --fs-logo: clamp(1rem, 1vw + 1.8rem, 2.7rem);
     --fs-theme-mode-logo: clamp(1rem, 1vw + 1.33rem, 1.8rem);
@@ -37,6 +41,10 @@ const NavBarContainer = styled.nav`
 `;
 
 const NavBarHeading = styled.h1``;
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: var(--theme-primary-text-color);
+`;
 
 const NavBarOptionsBgContainer = styled.div`
     display: flex;

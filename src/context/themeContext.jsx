@@ -48,10 +48,8 @@ const commonColors = {
     infoAccentColor: "#17A2B8",
 };
 
-// Create a ThemeContext using createContext to provide theme-related data to components
 const ThemeContext = createContext();
 
-// Create a custom hook 'useThemeProvider' to easily access the theme context in components
 export const useThemeProvider = () => useContext(ThemeContext);
 
 export const ThemeContextProvider = ({ children }) => {
@@ -63,7 +61,6 @@ export const ThemeContextProvider = ({ children }) => {
         isLightTheme,
     };
 
-    // Provide the current theme to components within the ThemeContext.Provider and Styled-Components ThemeProvider
     return (
         <ThemeContext.Provider value={""}>
             <ThemeProvider theme={currentTheme}>{children}</ThemeProvider>

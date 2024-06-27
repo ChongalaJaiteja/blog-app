@@ -174,9 +174,6 @@ const CreateBlog = ({
 
 export default CreateBlog;
 
-// Styled components remain the same...
-// (You can copy them from your existing CreateBlog component)
-
 // Styled components
 const CreateBlogContainer = styled.div`
     margin: 0 auto;

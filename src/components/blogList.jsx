@@ -3,10 +3,13 @@ import styled from "styled-components";
 import { getBlogData, storeBlogData } from "../utils/blogData";
 import { Link, useNavigate } from "react-router-dom";
 import BlogCard from "./blogCard";
+import { useBlogContext } from "../context/blogContext";
+import toast from "react-hot-toast";
 
 const BlogList = () => {
     const [blogData, setBlogData] = useState([]);
     const navigate = useNavigate();
+    const { isLightTheme } = useBlogContext();
 
     useEffect(() => {
         const data = getBlogData();
@@ -21,6 +24,7 @@ const BlogList = () => {
         const updatedData = blogData.filter((blog, index) => index !== id);
         setBlogData(updatedData);
         storeBlogData(updatedData);
+        toast.success("Blog deleted successfully!");
     };
 
     return (
@@ -33,12 +37,10 @@ const BlogList = () => {
             {blogData.length === 0 ? (
                 <EmptyStateContainer>
                     <EmptyImage
-                        src="https://www.svgrepo.com/show/301479/empty.svg"
+                        src="https://img.freepik.com/free-vector/blog-articles-abstract-concept-illustration_335657-4934.jpg?t=st=1719454876~exp=1719458476~hmac=21ba36c322ac59c93f759c033b220051aa052b65e903d6636004a7796e8ba19c&w=740"
                         alt="No content available"
                     />
-                    <Message>
-                        No blog posts available. Check back later!
-                    </Message>
+                    <Message>No blog posts available.</Message>
                 </EmptyStateContainer>
             ) : (
                 <BlogListCardBgContainer>
@@ -126,10 +128,10 @@ const Message = styled.p`
 // Floating Create Button styled component
 const CreateButtonFloating = styled(Link)`
     position: fixed;
-    bottom: 20px; /* Adjust as needed */
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1000; /* Ensure it's above other content */
+    z-index: 1000;
     padding: 0.8em 1.5em;
     background-color: var(--theme-primary-color);
     color: white;
@@ -144,7 +146,7 @@ const CreateButtonFloating = styled(Link)`
     }
 
     @media (min-width: 600px) {
-        display: none; /* Hide on larger screens */
+        display: none;
     }
 `;
 
