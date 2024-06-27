@@ -32,7 +32,9 @@ const BlogPost = () => {
                 <Date>{blog?.date}</Date>
             </Subheader>
             <Content>{blog?.content}</Content>
-            <BackButton onClick={() => navigate("/")}>Go Back</BackButton>
+            <BackButton onClick={() => navigate("/blog-app")}>
+                Go Back
+            </BackButton>
         </BlogPostContainer>
     );
 };

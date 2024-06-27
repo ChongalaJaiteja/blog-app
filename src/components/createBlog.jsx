@@ -49,7 +49,7 @@ const CreateBlog = ({
                 storeBlogData(blogData);
                 toast.success("Blog created successfully!");
             }
-            navigate("/");
+            navigate("/blog-app");
         } else {
             toast.error("Please fill in all required fields");
         }

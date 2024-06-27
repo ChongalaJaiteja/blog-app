@@ -6,7 +6,7 @@ const BlogCard = ({ id, title, content, author, date, onEdit, onDelete }) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`/blog/${id}`);
+        navigate(`blog/${id}`);
     };
 
     return (

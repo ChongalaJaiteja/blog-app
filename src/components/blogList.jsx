@@ -17,7 +17,7 @@ const BlogList = () => {
     }, []);
 
     const handleEdit = (id) => {
-        navigate(`/edit/${id}`);
+        navigate(`edit/${id}`);
     };
 
     const handleDelete = (id) => {
@@ -31,7 +31,7 @@ const BlogList = () => {
         <BlogListBgContainer>
             <Header>
                 <Title>Blog Posts</Title>
-                <CreateButton to="/create-blog">Create Blog</CreateButton>
+                <CreateButton to="create-blog">Create Blog</CreateButton>
             </Header>
 
             {blogData.length === 0 ? (
@@ -59,7 +59,7 @@ const BlogList = () => {
                 </BlogListCardBgContainer>
             )}
             {/* Floating Create Blog Button */}
-            <CreateButtonFloating to="/create-blog">
+            <CreateButtonFloating to="create-blog">
                 Create Blog
             </CreateButtonFloating>
         </BlogListBgContainer>

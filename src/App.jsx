@@ -14,8 +14,8 @@ const App = () => {
             <ThemeContextProvider>
                 <GlobalStyles />
                 <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Layout />}>
+                    <Routes basename="/blog-app">
+                        <Route path="/blog-app" element={<Layout />}>
                             <Route index element={<BlogList />} />
                             <Route path="blog/:id" element={<BlogPost />} />
                             <Route
@@ -23,7 +23,7 @@ const App = () => {
                                 element={<CreateBlog />}
                             />
                             <Route
-                                path="/edit/:id"
+                                path="edit/:id"
                                 element={<EditBlogWrapper />}
                             />
                         </Route>
