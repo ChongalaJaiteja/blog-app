@@ -6,6 +6,7 @@ import { BlogProvider } from "./context/blogContext";
 import { ThemeContextProvider } from "./context/themeContext";
 import { GlobalStyles } from "./globalStyles";
 import CreateBlog from "./components/createBlog";
+import EditBlogWrapper from "./components/editBlogWrapper";
 
 const App = () => {
     return (
@@ -20,6 +21,10 @@ const App = () => {
                             <Route
                                 path="create-blog"
                                 element={<CreateBlog />}
+                            />
+                            <Route
+                                path="/edit/:id"
+                                element={<EditBlogWrapper />}
                             />
                         </Route>
                         <Route path="*" element={<h1>Not Found</h1>} />

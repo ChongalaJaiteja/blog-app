@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-// BlogCard component
+
 const BlogCard = ({ id, title, content, author, date, onEdit, onDelete }) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`/blog/${id}`);
+        navigate(`="/edit/:id`);
     };
 
     return (
@@ -14,10 +14,20 @@ const BlogCard = ({ id, title, content, author, date, onEdit, onDelete }) => {
             <CardHeader>
                 <Title>{title}</Title>
                 <Actions>
-                    <EditButton onClick={onEdit}>
+                    <EditButton
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onEdit();
+                        }}
+                    >
                         <FaEdit />
                     </EditButton>
-                    <DeleteButton onClick={onDelete}>
+                    <DeleteButton
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete();
+                        }}
+                    >
                         <FaTrash />
                     </DeleteButton>
                 </Actions>
@@ -43,9 +53,9 @@ const CardContainer = styled.div`
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     cursor: pointer;
     padding: 1.2em 1.1em;
-    overflow: hidden; /* Ensure content does not overflow */
-    text-overflow: ellipsis; /* Display ellipsis for overflowed text */
-    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &:hover {
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);

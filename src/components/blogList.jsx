@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getBlogData, storeBlogData } from "../utils/blogData";
-import { Link } from "react-router-dom"; // Import Link for routing
+import { Link, useNavigate } from "react-router-dom"; // Import Link for routing
 import BlogCard from "./blogCard";
 
 const BlogList = () => {
     const [blogData, setBlogData] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         const data = getBlogData();
         setBlogData(data);
     }, []);
 
     const handleEdit = (id) => {
-        alert(`Edit function triggered for blog at index ${id}`);
+        navigate(`/edit/${id}`);
     };
 
     const handleDelete = (id) => {
@@ -22,38 +23,42 @@ const BlogList = () => {
     };
 
     return (
-        <BlogListBgContainer>
-            <Header>
-                <Title>Blog Posts</Title>
-                <CreateButton to="/create-blog">Create Blog</CreateButton>
-            </Header>
-            {blogData.length === 0 ? (
-                <EmptyStateContainer>
-                    <EmptyImage
-                        src="https://www.svgrepo.com/show/301479/empty.svg"
-                        alt="No content available"
-                    />
-                    <Message>
-                        No blog posts available. Check back later!
-                    </Message>
-                </EmptyStateContainer>
-            ) : (
-                <BlogListCardBgContainer>
-                    {blogData.map(({ title, content, author, date }, index) => (
-                        <BlogCard
-                            key={index}
-                            id={index}
-                            title={title}
-                            content={content}
-                            author={author}
-                            date={date}
-                            onEdit={() => handleEdit(index)}
-                            onDelete={() => handleDelete(index)}
+        <>
+            <BlogListBgContainer>
+                <Header>
+                    <Title>Blog Posts</Title>
+                    <CreateButton to="/create-blog">Create Blog</CreateButton>
+                </Header>
+                {blogData.length === 0 ? (
+                    <EmptyStateContainer>
+                        <EmptyImage
+                            src="https://www.svgrepo.com/show/301479/empty.svg"
+                            alt="No content available"
                         />
-                    ))}
-                </BlogListCardBgContainer>
-            )}
-        </BlogListBgContainer>
+                        <Message>
+                            No blog posts available. Check back later!
+                        </Message>
+                    </EmptyStateContainer>
+                ) : (
+                    <BlogListCardBgContainer>
+                        {blogData.map(
+                            ({ title, content, author, date }, index) => (
+                                <BlogCard
+                                    key={index}
+                                    id={index}
+                                    title={title}
+                                    content={content}
+                                    author={author}
+                                    date={date}
+                                    onEdit={() => handleEdit(index)}
+                                    onDelete={() => handleDelete(index)}
+                                />
+                            )
+                        )}
+                    </BlogListCardBgContainer>
+                )}
+            </BlogListBgContainer>
+        </>
     );
 };
 
