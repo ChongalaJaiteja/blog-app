@@ -4,7 +4,7 @@ const NavBar = () => {
     const { isLightTheme, toggleTheme } = useBlogContext();
     return (
         <NavBarContainer>
-            <StyledLink to="/">
+            <StyledLink to="/blog-app">
                 <NavBarHeading>Blog</NavBarHeading>
             </StyledLink>
             <NavBarOptionsBgContainer>
