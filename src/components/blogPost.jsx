@@ -54,6 +54,7 @@ const BlogPostContainer = styled.div`
 const Title = styled.h1`
     color: var(--theme-primary-text-color);
     margin-bottom: 0.5em;
+    word-wrap: break-word;
     font-size: 2.5em;
     line-height: 1.2;
     width: 100%;

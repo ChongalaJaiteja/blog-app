@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getBlogData, storeBlogData } from "../utils/blogData";
-import { Link, useNavigate } from "react-router-dom"; // Import Link for routing
+import { Link, useNavigate } from "react-router-dom";
 import BlogCard from "./blogCard";
 
 const BlogList = () => {
     const [blogData, setBlogData] = useState([]);
     const navigate = useNavigate();
+
     useEffect(() => {
         const data = getBlogData();
         setBlogData(data);
@@ -23,42 +24,43 @@ const BlogList = () => {
     };
 
     return (
-        <>
-            <BlogListBgContainer>
-                <Header>
-                    <Title>Blog Posts</Title>
-                    <CreateButton to="/create-blog">Create Blog</CreateButton>
-                </Header>
-                {blogData.length === 0 ? (
-                    <EmptyStateContainer>
-                        <EmptyImage
-                            src="https://www.svgrepo.com/show/301479/empty.svg"
-                            alt="No content available"
+        <BlogListBgContainer>
+            <Header>
+                <Title>Blog Posts</Title>
+                <CreateButton to="/create-blog">Create Blog</CreateButton>
+            </Header>
+
+            {blogData.length === 0 ? (
+                <EmptyStateContainer>
+                    <EmptyImage
+                        src="https://www.svgrepo.com/show/301479/empty.svg"
+                        alt="No content available"
+                    />
+                    <Message>
+                        No blog posts available. Check back later!
+                    </Message>
+                </EmptyStateContainer>
+            ) : (
+                <BlogListCardBgContainer>
+                    {blogData.map(({ title, content, author, date }, index) => (
+                        <BlogCard
+                            key={index}
+                            id={index}
+                            title={title}
+                            content={content}
+                            author={author}
+                            date={date}
+                            onEdit={() => handleEdit(index)}
+                            onDelete={() => handleDelete(index)}
                         />
-                        <Message>
-                            No blog posts available. Check back later!
-                        </Message>
-                    </EmptyStateContainer>
-                ) : (
-                    <BlogListCardBgContainer>
-                        {blogData.map(
-                            ({ title, content, author, date }, index) => (
-                                <BlogCard
-                                    key={index}
-                                    id={index}
-                                    title={title}
-                                    content={content}
-                                    author={author}
-                                    date={date}
-                                    onEdit={() => handleEdit(index)}
-                                    onDelete={() => handleDelete(index)}
-                                />
-                            )
-                        )}
-                    </BlogListCardBgContainer>
-                )}
-            </BlogListBgContainer>
-        </>
+                    ))}
+                </BlogListCardBgContainer>
+            )}
+            {/* Floating Create Blog Button */}
+            <CreateButtonFloating to="/create-blog">
+                Create Blog
+            </CreateButtonFloating>
+        </BlogListBgContainer>
     );
 };
 
@@ -70,6 +72,8 @@ const BlogListBgContainer = styled.div`
     color: var(--theme-primary-text-color);
     min-height: 100vh;
     padding: 2em;
+    position: relative;
+    padding-bottom: 5em;
 `;
 
 const Header = styled.div`
@@ -85,20 +89,6 @@ const Title = styled.h1`
     margin: 0;
 `;
 
-const CreateButton = styled(Link)`
-    padding: 0.8em 1.5em;
-    background-color: var(--theme-primary-color);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-    &:hover {
-        background-color: var(--theme-secondary-color);
-    }
-`;
-
 const BlogListCardBgContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -107,11 +97,9 @@ const BlogListCardBgContainer = styled.div`
     @media (min-width: 600px) {
         grid-template-columns: repeat(2, 1fr);
     }
-
     @media (min-width: 1080px) {
         grid-template-columns: repeat(3, 1fr);
     }
-
     @media (min-width: 1700px) {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -133,4 +121,46 @@ const EmptyImage = styled.img`
 const Message = styled.p`
     font-size: 1.2em;
     color: var(--theme-primary-text-color);
+`;
+
+// Floating Create Button styled component
+const CreateButtonFloating = styled(Link)`
+    position: fixed;
+    bottom: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Ensure it's above other content */
+    padding: 0.8em 1.5em;
+    background-color: var(--theme-primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: var(--theme-secondary-color);
+    }
+
+    @media (min-width: 600px) {
+        display: none; /* Hide on larger screens */
+    }
+`;
+
+const CreateButton = styled(Link)`
+    padding: 0.8em 1.5em;
+    background-color: var(--theme-primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    &:hover {
+        background-color: var(--theme-secondary-color);
+    }
+    @media (max-width: 600px) {
+        display: none;
+    }
 `;

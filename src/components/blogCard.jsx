@@ -6,7 +6,7 @@ const BlogCard = ({ id, title, content, author, date, onEdit, onDelete }) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`="/edit/:id`);
+        navigate(`/blog/${id}`);
     };
 
     return (
@@ -114,10 +114,9 @@ const CardContent = styled.p`
     line-height: 1.5;
     overflow: hidden;
     display: -webkit-box;
-    overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    -webkit-line-clamp: 3;
+    white-space: normal;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
 `;
 
